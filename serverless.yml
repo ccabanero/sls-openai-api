@@ -1,0 +1,14 @@
+service: learn-openai-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+
+functions:
+  hello:
+    runtime: nodejs14.x
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
