@@ -24,3 +24,4 @@ functions:
       - httpApi:
           path: /api/openai/prompt
           method: get
+    timeout: 30

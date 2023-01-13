@@ -40,7 +40,7 @@ module.exports.handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify(
         {
-          animal: animal,
+          prompt,
           // result: completion.data.choices[0].text,
           // result: completion.data.choices[0],
           result: completion,
