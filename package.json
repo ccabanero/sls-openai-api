@@ -1,0 +1,24 @@
+{
+  "name": "learn-openai-api",
+  "version": "1.0.0",
+  "description": "Learning how to create API endpoints with OpenAI + serverless framework",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccabanero/learn-openai-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ccabanero/learn-openai-api/issues"
+  },
+  "homepage": "https://github.com/ccabanero/learn-openai-api#readme",
+  "dependencies": {
+    "openai": "^3.1.0",
+    "serverless-dotenv-plugin": "^4.0.2"
+  }
+}

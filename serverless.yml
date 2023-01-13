@@ -4,11 +4,23 @@ frameworkVersion: '3'
 provider:
   name: aws
 
+plugins:
+  - serverless-dotenv-plugin
+
 functions:
-  hello:
+  animalnames:
+    description: "The animal names hello world snippet"
     runtime: nodejs14.x
-    handler: handler.hello
+    handler: lambdas/node/animalnames.handler
     events:
       - httpApi:
-          path: /
+          path: /api/openai/animalnames
+          method: get
+  openprompt:
+    description: "Like the animal names but just allows for an open prompt as a qs parameter"
+    runtime: nodejs14.x
+    handler: lambdas/node/openprompt.handler
+    events:
+      - httpApi:
+          path: /api/openai/prompt
           method: get
