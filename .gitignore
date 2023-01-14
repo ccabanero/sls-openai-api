@@ -7,3 +7,5 @@ jspm_packages
 
 # environments
 .env.local
+.env.dev.local
+.env.test.local
