@@ -11,7 +11,7 @@ This repo creates a Micro-service for calling the OpenAI API using the following
 * AWS Lambda
 * serverless framework for Infrastructure-as-code
 
-![techstack](./docs/overview_techstack.jpg)
+![techstack](./docs/sls-openai-api.jpg)
 
 __Usage__
 
