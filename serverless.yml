@@ -16,12 +16,11 @@ functions:
       - httpApi:
           path: /api/openai/animalnames
           method: get
-  openprompt:
-    description: "Like the animal names but just allows for an open prompt as a qs parameter"
+  animalnames2:
+    description: "The animal names hello world snippet"
     runtime: nodejs14.x
-    handler: lambdas/node/openprompt.handler
+    handler: lambdas/node/animalnames2.handler
     events:
       - httpApi:
-          path: /api/openai/prompt
+          path: /api/openai/animalnames2
           method: get
-    timeout: 30

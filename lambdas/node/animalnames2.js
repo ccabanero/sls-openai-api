@@ -8,7 +8,7 @@ module.exports.handler = async (event) => {
   });
   const openai = new OpenAIApi(configuration);
 
-  // valid api key
+  // validate api key
   if (!configuration.apiKey) {
     return {
       statusCode: 500,
@@ -24,9 +24,6 @@ module.exports.handler = async (event) => {
   const { prompt } = event.queryStringParameters;
 
   try {
-    //
-    console.log(prompt);
-
     const completion = await openai.createCompletion({
       model: 'text-davinci-003',
       prompt: prompt,
@@ -36,14 +33,12 @@ module.exports.handler = async (event) => {
     //
     console.log(completion);
     console.log(completion.data.choices);
+
     return {
       statusCode: 200,
       body: JSON.stringify(
         {
-          prompt,
-          // result: completion.data.choices[0].text,
-          // result: completion.data.choices[0],
-          result: completion,
+          result: completion.data.choices[0].text,
         }
       )
     }
