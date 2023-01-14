@@ -20,10 +20,20 @@ Pre-requisites:
 * You have an OpenAI API key
 
 Steps:
-1. Clone
-2. Update .env with your OpenAI API key.
-3. Deploy this micro-service to your own AWS Account
+1. Clone this repo.
+2. Install with:
+
+````
+npm install
+````
+
+3. Update .env with your OpenAI API key.
+4. Deploy this micro-service to your own AWS Account with:
 
 ````
 sls deploy
+````
+5. Tear down micro-service from your own AWS Account with:
+````
+sls remove
 ````
