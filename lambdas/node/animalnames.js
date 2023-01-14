@@ -1,5 +1,5 @@
-"use strict";
-const { Configuration, OpenAIApi} = require('openai');
+/* eslint-disable no-console */
+const { Configuration, OpenAIApi } = require('openai');
 
 function generatePrompt(animal) {
   const capitalizedAnimal = animal[0].toUpperCase() + animal.slice(1).toLowerCase();
@@ -15,7 +15,7 @@ function generatePrompt(animal) {
 module.exports.handler = async (event) => {
   // configure api key
   const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY
+    apiKey: process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
 
@@ -25,31 +25,22 @@ module.exports.handler = async (event) => {
       statusCode: 500,
       body: JSON.stringify(
         {
-          message: "OpenAI API key not configured"
-        }
-      )
-    }
+          message: 'OpenAI API key not configured',
+        },
+      ),
+    };
   }
 
   // get qs parameter
   const { animal } = event.queryStringParameters;
 
+  let completion;
   try {
-    const completion = await openai.createCompletion({
+    completion = await openai.createCompletion({
       model: 'text-davinci-003',
       prompt: generatePrompt(animal),
       temperature: 0.6,
     });
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        {
-          animal: animal,
-          result: completion.data.choices[0].text,
-        }
-      )
-    }
   } catch (error) {
     if (error.response) {
       console.error(error.response.status, error.response.data);
@@ -57,10 +48,20 @@ module.exports.handler = async (event) => {
         statusCode: error.response.status,
         body: JSON.stringify(
           {
-            message: error.response.data
-          }
-        )
-      }
+            message: error.response.data,
+          },
+        ),
+      };
     }
   }
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(
+      {
+        animal,
+        result: completion.data.choices[0].text,
+      },
+    ),
+  };
 };

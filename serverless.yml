@@ -16,11 +16,11 @@ functions:
       - httpApi:
           path: /api/openai/animalnames
           method: get
-  animalnames2:
-    description: "The animal names hello world snippet"
+  completions:
+    description: "Calls the OpenAI API completions endpoint which uses the GPT-3 (Generative Pre-trained Transformer 3) model to generate text completions"
     runtime: nodejs14.x
-    handler: lambdas/node/animalnames2.handler
+    handler: lambdas/node/completions.handler
     events:
       - httpApi:
-          path: /api/openai/animalnames2
+          path: /api/openai/completions
           method: get
