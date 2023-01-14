@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-console */
 
 const { Configuration, OpenAIApi } = require('openai');
@@ -62,10 +63,31 @@ module.exports.handler = async (event) => {
 
   // validate prompt qs parameter
   const { prompt } = queryStringParameters;
-  if (prompt.length === 0) {
+  if (prompt === undefined || prompt.length === 0) {
     return createAPIGatewayResponse(400, {
-      message: 'The prompt query string parameter is required. Length of prompt must be greater than zero',
+      message: 'The "prompt" query string parameter is required. Length of prompt must be greater than zero',
     });
+  }
+
+  // validate temperature
+  const { temperature } = queryStringParameters;
+  if (temperature === undefined || temperature.length === 0) {
+    return createAPIGatewayResponse(400, {
+      message: 'The "temperature" query string parameter is required.  It must be between 0 and 1',
+    });
+  }
+  const temp = parseFloat(temperature);
+  if (temp < 0 || temp > 1) {
+    return createAPIGatewayResponse(400, {
+      message: 'The "temperature" query string parameter must be between 0 and 1',
+    });
+  }
+
+  // validate max_tokens
+  let maxtok = 16;
+  const { max_tokens } = queryStringParameters;
+  if (max_tokens !== undefined && max_tokens.length !== 0) {
+    maxtok = parseInt(max_tokens, 10);
   }
 
   // use OpenAI API completions endpoint
@@ -74,8 +96,11 @@ module.exports.handler = async (event) => {
     completion = await openai.createCompletion({
       model,
       prompt,
-      temperature: 0.6,
+      temperature: temp,
+      max_tokens: maxtok,
     });
+    //
+    console.log(completion);
   } catch (error) {
     if (error.response) {
       // send to CloudWatch logs
@@ -87,5 +112,14 @@ module.exports.handler = async (event) => {
   }
 
   // send response
-  return createAPIGatewayResponse(200, completion.data);
+  return createAPIGatewayResponse(200, {
+    request: {
+      model,
+      prompt,
+      temperature: temp,
+      max_tokens: maxtok,
+    },
+    data: completion.data,
+    text: completion.data.choices[0].text,
+  });
 };

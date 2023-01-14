@@ -24,4 +24,5 @@ functions:
       - httpApi:
           method: get
           path: /api/openai/completions
+    timeout: 30
 
