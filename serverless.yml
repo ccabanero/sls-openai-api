@@ -11,7 +11,7 @@ functions:
   animalnames:
     description: "Simple example showing use of the OpenAI API for the animal names getting started tutorial"
     runtime: nodejs14.x
-    handler: lambdas/node/animalnames.handler
+    handler: lambdas/animalnames.handler
     events:
       - httpApi:
           method: get
@@ -19,7 +19,7 @@ functions:
   completions:
     description: "Calls the OpenAI API completions endpoint which uses the GPT-3 (Generative Pre-trained Transformer 3) model to generate text completions"
     runtime: nodejs14.x
-    handler: lambdas/node/completions.handler
+    handler: lambdas/completions.handler
     events:
       - httpApi:
           method: get

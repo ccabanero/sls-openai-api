@@ -2,22 +2,7 @@
 /* eslint-disable no-console */
 
 const { Configuration, OpenAIApi } = require('openai');
-
-/**
- * Utility for creating an API response object
- * @param {*} statusCode
- * @param {*} body
- * @returns API response object
- */
-const createAPIGatewayResponse = (statusCode, body) => ({
-  statusCode,
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Credentials': true,
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(body),
-});
+const { createAPIGatewayResponse } = require('./utils/createAPIGatewayResponse');
 
 // Main Lambda function handler
 module.exports.handler = async (event) => {
@@ -120,6 +105,5 @@ module.exports.handler = async (event) => {
       max_tokens: maxtok,
     },
     data: completion.data,
-    text: completion.data.choices[0].text,
   });
 };
