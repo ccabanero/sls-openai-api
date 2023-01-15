@@ -2,7 +2,7 @@
 
 __Purpose__
 
-When making client applications that utilize the [OpenAI API](https://openai.com/api/), you may want to encapsulate requests via a Micro-service layer.
+When making client applications that utilize the [OpenAI API](https://openai.com/api/), you may want to encapsulate requests via a Micro-service layer ([see their documentation](https://beta.openai.com/docs/api-reference/authentication)).
 
 This repo creates a Micro-service for calling the OpenAI API using the following:
 
@@ -10,8 +10,9 @@ This repo creates a Micro-service for calling the OpenAI API using the following
 * Amazon API Gateway
 * AWS Lambda
 * serverless framework for Infrastructure-as-code
+* .env to hold your OpenAI API key
 
-![techstack](./docs/sls-openai-api.jpg)
+![techstack](./docs/sls-openai-api.png)
 
 __Usage__
 
