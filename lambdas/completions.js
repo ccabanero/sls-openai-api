@@ -3,7 +3,12 @@
 
 const { Configuration, OpenAIApi } = require('openai');
 const { createAPIGatewayResponse } = require('./utils/createAPIGatewayResponse');
-const { qsParamExists, modelIsValid, validModels, temperatureIsValid } = require('./utils/qsValidation');
+const {
+  qsParamExists,
+  modelIsValid,
+  validModels,
+  temperatureIsValid,
+} = require('./utils/qsValidation');
 
 module.exports.handler = async (event) => {
   // validate query string parameters exist
