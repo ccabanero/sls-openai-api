@@ -46,7 +46,3 @@ __Testing:__
 ````
 npm test
 ````
-* Test coverage can be run via:
-````
-./node_modules/.bin/jest --coverage
-````
