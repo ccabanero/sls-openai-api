@@ -38,14 +38,14 @@ module.exports.handler = async (event) => {
   }
 
   // validate required qs parameter "temperature"
-  if (!qsParamExists(event.queryStringParameters.prompt)) {
+  if (!qsParamExists(event.queryStringParameters.temperature)) {
     return createAPIGatewayResponse(400, {
       message: 'The "temperature" query string parameter is required.  It must be between 0 and 1',
     });
   }
 
   // validate "temperature" value
-  const temp = parseFloat(event.queryStringParameters.prompt);
+  const temp = parseFloat(event.queryStringParameters.temperature);
   if (!temperatureIsValid(temp)) {
     return createAPIGatewayResponse(400, {
       message: 'The "temperature" query string parameter must be between 0 and 1',

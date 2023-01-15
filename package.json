@@ -4,7 +4,7 @@
   "description": "Learning how to create API endpoints with OpenAI + serverless framework",
   "main": "handler.js",
   "scripts": {
-    "test": "env-cmd -f .env.test.local jest --watch --runInBand --coverage"
+    "test": "env-cmd -f .env.test.local jest --watch --runInBand"
   },
   "repository": {
     "type": "git",
