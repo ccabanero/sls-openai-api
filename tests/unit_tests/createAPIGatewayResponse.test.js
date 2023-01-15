@@ -1,6 +1,6 @@
 const { createAPIGatewayResponse } = require('../../lambdas/utils/createAPIGatewayResponse');
 
-test('createAPIGatewayResponse creates a valid response object', () => {
+test('createAPIGatewayResponse() creates the expected response object', () => {
   const statusCode = 200;
   const body = { message: 'This is a test' };
   const response = createAPIGatewayResponse(statusCode, body);
@@ -12,6 +12,6 @@ test('createAPIGatewayResponse creates a valid response object', () => {
       'Access-Control-Allow-Credentials': true,
       'Content-Type': 'application/json',
     },
-    body: '{"message":"This is a test"}',
+    body: '{"message":"This is a test"}', // json string
   });
 });

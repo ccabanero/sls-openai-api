@@ -3,89 +3,77 @@
 
 const { Configuration, OpenAIApi } = require('openai');
 const { createAPIGatewayResponse } = require('./utils/createAPIGatewayResponse');
+const { qsParamExists, modelIsValid, validModels, temperatureIsValid } = require('./utils/qsValidation');
 
-// Main Lambda function handler
 module.exports.handler = async (event) => {
-  // configure api key
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
-
-  // validate api key
-  if (!configuration.apiKey) {
-    return createAPIGatewayResponse(500, 'OpenAI API key not configured');
+  // validate query string parameters exist
+  if (event.queryStringParameters === undefined) {
+    return createAPIGatewayResponse(400, 'Query string parameters "prompt", "model", and "temperature" are required');
   }
 
-  // validate prompt
-  const { queryStringParameters } = event;
-  if (queryStringParameters === undefined) {
-    return createAPIGatewayResponse(400, 'Query string parameters "prompt" and "model" are required');
-  }
-
-  // validate model qs parameter
-  const { model } = queryStringParameters;
-  const validModels = [
-    'text-davinci-003',
-    'text-babbage-001',
-    'text-ada-001',
-    'text-davinci-002',
-    'text-davinci-001',
-    'davinci-instruct-beta',
-    'davinci',
-    'curie-instruct-beta',
-    'curie',
-    'babbage',
-    'ada',
-    'code-davinci-002',
-    'code-cushman-001',
-  ];
-  if (!validModels.includes(model)) {
+  // validate required qs parameter "model"
+  if (!qsParamExists(event.queryStringParameters.model)) {
     return createAPIGatewayResponse(400, {
       message: `The model query string parameter is required. Valid options are: ${validModels.join(',')}`,
     });
   }
 
-  // validate prompt qs parameter
-  const { prompt } = queryStringParameters;
-  if (prompt === undefined || prompt.length === 0) {
+  // validate "model" name
+  if (!modelIsValid(event.queryStringParameters.model)) {
+    return createAPIGatewayResponse(400, {
+      message: `The model query string parameter is required. The provided model: ${event.queryStringParameters.model} is not valid. Valid options are: ${validModels.join(',')}`,
+    });
+  }
+
+  // validate required qs parameter "prompt"
+  if (!qsParamExists(event.queryStringParameters.prompt)) {
     return createAPIGatewayResponse(400, {
       message: 'The "prompt" query string parameter is required. Length of prompt must be greater than zero',
     });
   }
 
-  // validate temperature
-  const { temperature } = queryStringParameters;
-  if (temperature === undefined || temperature.length === 0) {
+  // validate required qs parameter "temperature"
+  if (!qsParamExists(event.queryStringParameters.prompt)) {
     return createAPIGatewayResponse(400, {
       message: 'The "temperature" query string parameter is required.  It must be between 0 and 1',
     });
   }
-  const temp = parseFloat(temperature);
-  if (temp < 0 || temp > 1) {
+
+  // validate "temperature" value
+  const temp = parseFloat(event.queryStringParameters.prompt);
+  if (!temperatureIsValid(temp)) {
     return createAPIGatewayResponse(400, {
       message: 'The "temperature" query string parameter must be between 0 and 1',
     });
   }
 
-  // validate max_tokens
-  let maxtok = 16;
-  const { max_tokens } = queryStringParameters;
-  if (max_tokens !== undefined && max_tokens.length !== 0) {
-    maxtok = parseInt(max_tokens, 10);
+  // validate optional qs parameter "max_tokens"
+  let maxtok = 16; // default
+  if (qsParamExists(event.queryStringParameters.prompt.max_tokens)) {
+    // override default
+    maxtok = parseInt(event.queryStringParameters.prompt.max_tokens, 10);
   }
+
+  // create a config using your OpenAI API key
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  if (!configuration.apiKey) {
+    return createAPIGatewayResponse(500, 'OpenAI API key not configured');
+  }
+
+  // create OpenAI instance
+  const openai = new OpenAIApi(configuration);
 
   // use OpenAI API completions endpoint
   let completion;
   try {
     completion = await openai.createCompletion({
-      model,
-      prompt,
+      model: event.queryStringParameters.model,
+      prompt: event.queryStringParameters.prompt,
       temperature: temp,
       max_tokens: maxtok,
     });
-    //
-    console.log(completion);
   } catch (error) {
     if (error.response) {
       // send to CloudWatch logs
@@ -98,12 +86,6 @@ module.exports.handler = async (event) => {
 
   // send response
   return createAPIGatewayResponse(200, {
-    request: {
-      model,
-      prompt,
-      temperature: temp,
-      max_tokens: maxtok,
-    },
     data: completion.data,
   });
 };

@@ -1,9 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const request = require('supertest');
 
-beforeEach(() => {
-  jest.setTimeout(30000);
-});
+jest.setTimeout(30000);
 
 test('a valid GET request returns a 200 status code', async () => {
   const response = await request(process.env.API_BASEURL)
