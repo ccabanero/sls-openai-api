@@ -40,9 +40,13 @@ sls remove
 
 __Testing:__
 
-* For this repo, Unit Tests utilize [Jest](https://jestjs.io) and Integration Tests use [supertest](https://www.npmjs.com/package/supertest)
+* This repo uses [Jest](https://jestjs.io) for Unit Tests and [supertest](https://www.npmjs.com/package/supertest) for Integration Tests.
 * Before running integration tests, update .env.test with your own API Gateway API_BASEURL.
 * Both unit and integration tests can be run via:
 ````
 npm test
+````
+* Test coverage can be run via:
+````
+./node_modules/.bin/jest --coverage
 ````

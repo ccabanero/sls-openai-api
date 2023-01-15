@@ -9,3 +9,6 @@ jspm_packages
 .env.local
 .env.dev.local
 .env.test.local
+
+# testing
+coverage/
