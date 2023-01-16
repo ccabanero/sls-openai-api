@@ -91,6 +91,6 @@ module.exports.handler = async (event) => {
 
   // send response
   return createAPIGatewayResponse(200, {
-    data: completion.data,
+    data: completion,
   });
 };
