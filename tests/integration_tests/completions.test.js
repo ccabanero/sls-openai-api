@@ -19,11 +19,11 @@ test('a valid GET request returns a response body with the expcted data structur
 
   // confirm the response body returns the expected data structure
   expect('data' in response.body);
-  expect('id' in response.body.data).toBe(true);
-  expect('object' in response.body.data).toBe(true);
-  expect('created' in response.body.data).toBe(true);
-  expect('choices' in response.body.data).toBe(true);
-  expect('usage' in response.body.data).toBe(true);
+  expect('id' in response.body).toBe(true);
+  expect('object' in response.body).toBe(true);
+  expect('created' in response.body).toBe(true);
+  expect('choices' in response.body).toBe(true);
+  expect('usage' in response.body).toBe(true);
 });
 
 test('an invalid GET request with no query string parameters returns a 400 status code and informative message', async () => {
@@ -51,7 +51,7 @@ test('a GET request with NO MODEL query string parameter returns a 400 status co
   expect(actualStatusCode).toEqual(expectedStatusCode);
 
   // confirm message to client
-  const expectedMessage = 'The model query string parameter is required. Valid options are: text-davinci-003,text-babbage-001,text-ada-001,text-davinci-002,text-davinci-001,davinci-instruct-beta,davinci,curie-instruct-beta,curie,babbage,ada,code-davinci-002,code-cushman-001';
+  const expectedMessage = 'The model query string parameter is required. Valid options are: text-davinci-003,text-curie-001,text-babbage-001,text-ada-001,text-davinci-002,text-davinci-001,davinci-instruct-beta,davinci,curie-instruct-beta,curie,babbage,ada,code-davinci-002,code-cushman-001';
   const actualMessage = response.body.message;
   expect(actualMessage).toEqual(expectedMessage);
 });
@@ -67,7 +67,7 @@ test('a GET request with an INVALID MODEL query string parameter returns a 400 s
   expect(actualStatusCode).toEqual(expectedStatusCode);
 
   // confirm message to client
-  const expectedMessage = `The model query string parameter is required. The provided model: ${invalidModel} is not valid. Valid options are: text-davinci-003,text-babbage-001,text-ada-001,text-davinci-002,text-davinci-001,davinci-instruct-beta,davinci,curie-instruct-beta,curie,babbage,ada,code-davinci-002,code-cushman-001`;
+  const expectedMessage = `The model query string parameter is required. The provided model: ${invalidModel} is not valid. Valid options are: text-davinci-003,text-curie-001,text-babbage-001,text-ada-001,text-davinci-002,text-davinci-001,davinci-instruct-beta,davinci,curie-instruct-beta,curie,babbage,ada,code-davinci-002,code-cushman-001`;
   const actualMessage = response.body.message;
   expect(actualMessage).toEqual(expectedMessage);
 });
